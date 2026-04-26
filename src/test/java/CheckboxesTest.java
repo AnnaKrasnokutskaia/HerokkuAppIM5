@@ -29,6 +29,7 @@ public class CheckboxesTest {
         //определяем браузер с которым хотим работать
         driver = new ChromeDriver(options);
     }
+
     @Test
     public void checkCheckboxes() {
 

@@ -79,5 +79,4 @@ public class InputsTest {
     public void tearDown() {
         driver.quit();
     }
-
 }
