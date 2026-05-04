@@ -1,3 +1,5 @@
+package basic;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,10 +10,10 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import java.time.Duration;
 
-/*Проверить соответствие параграфа орфографии (на уроке сказали повторить 10 раз)*/
+/*кликнуть на кнопку, дождаться появления
+нотификации, проверить соответствие текста ожиданиям*/
 
-public class TyposTest {
-
+public class NotificationTest {
     WebDriver driver;
 
     @BeforeMethod
@@ -27,7 +29,7 @@ public class TyposTest {
     }
 
     @Test
-    public void checkTypos(){
+    public void checkNotification() {
 
         SoftAssert softAssert = new SoftAssert();
 
@@ -35,16 +37,16 @@ public class TyposTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         //открывает страницу по указанному url
-        driver.get("https://the-internet.herokuapp.com/typos");
+        driver.get("https://the-internet.herokuapp.com/notification_message_rendered");
 
-        for (int i = 0; i < 10; i++){
-            //refresh page
-            driver.navigate().refresh();
-            //получить текст
-            String text = driver.findElement(By.xpath("(//p)[2]")).getText();
-            //проверка одной штуки
-            softAssert.assertEquals(text,"Sometimes you'll see a typo, other times you won't.");
-        }
+        //кликнем на кнопку
+        driver.findElement(By.linkText("Click here")).click();
+        //получим нотификацию
+        String message = driver.findElement(By.id("flash")).getText();
+        //там иногда вылезает другая нотификация, поэтому вывод нужен,
+        //чтоб я потом посмотрела, это тест упал законно или потому что он кривой
+        System.out.println(message);
+        softAssert.assertTrue(message.contains("Action successful"));
 
         //проверка всего
         softAssert.assertAll();
